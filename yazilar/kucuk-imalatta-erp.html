@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why ERP does not stick in small manufacturing — Celal Topcu</title>
+<meta name="description" content="Five reasons a shop of thirty people abandons the system in the third month, and what I built differently.">
+<link rel="canonical" href="https://celaltopcu.com/yazilar/kucuk-imalatta-erp">
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://celaltopcu.com/yazilar/kucuk-imalatta-erp">
+<meta property="og:title" content="Why ERP does not stick in small manufacturing">
+<meta property="og:description" content="Five reasons a shop of thirty people abandons the system in the third month.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<script>
+  (function () {
+    var lang = 'en', theme = 'dark';
+    try {
+      var q = new URLSearchParams(location.search).get('lang');
+      lang = (q === 'tr' || q === 'en') ? q
+        : (localStorage.getItem('site-lang') ||
+          (navigator.language && navigator.language.toLowerCase().indexOf('tr') === 0 ? 'tr' : 'en'));
+      theme = localStorage.getItem('site-theme') || 'dark';
+    } catch (e) {}
+    document.documentElement.className = 'js lang-' + lang + ' theme-' + theme;
+    document.documentElement.lang = lang;
+  })();
+</script>
+</head>
+<body>
+
+<header class="nav-wrap">
+  <nav class="nav container">
+    <a href="../index.html" class="logo">Celal Topcu<span class="mark">.</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html#projects"><span class="t-en">Projects</span><span class="t-tr">Projeler</span></a></li>
+      <li><a href="../index.html#software"><span class="t-en">Software</span><span class="t-tr">Yazılım</span></a></li>
+      <li><a href="../index.html#writing" aria-current="page"><span class="t-en">Writing</span><span class="t-tr">Yazılar</span></a></li>
+      <li><a href="../cv.html">CV</a></li>
+      <li><a href="../index.html#contact"><span class="t-en">Contact</span><span class="t-tr">İletişim</span></a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="icon-btn theme-toggle" id="themeToggle" type="button" aria-label="Switch theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+        </svg>
+      </button>
+      <button class="icon-btn lang-toggle" id="langToggle" type="button" aria-label="Switch language">
+        <span class="t-en">tr</span><span class="t-tr">en</span>
+      </button>
+      <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<main class="article">
+  <h1>
+    <span class="t-en">Why ERP does not stick in small manufacturing</span>
+    <span class="t-tr">Küçük imalatta ERP neden tutmuyor</span>
+  </h1>
+  <p class="mono article-meta">
+    2026 / 11 &nbsp;/&nbsp;
+    <span class="t-en">7 min read</span><span class="t-tr">7 dakika</span>
+  </p>
+
+  <div class="t-en">
+    <p>A workshop of thirty people buys an ERP system. There is a kickoff, a consultant, two weeks of training.
+      By the third month the stock module is wrong, the production module is empty, and the real planning has
+      moved back to a whiteboard and a group chat. The licence keeps being paid for another year because
+      cancelling it would be admitting something.</p>
+
+    <p>I have watched this from both sides — as the engineer whose work the system was supposed to capture, and
+      later as the person building one. These are the five reasons I keep coming back to.</p>
+
+    <h2>1. It asks for data nobody has time to enter</h2>
+
+    <p>Enterprise systems are designed around complete, timely data entry. They assume somebody will record
+      every stock movement, every operation start and stop, every scrap event, within minutes of it happening.</p>
+
+    <p>In a thirty-person shop the person who would enter that data is also operating the press. So the entry
+      happens at the end of the week, from memory, or not at all. Within a month the figures in the system and
+      the figures in the warehouse diverge, and the moment people stop believing the number on the screen,
+      nobody opens the screen again.</p>
+
+    <p>The fix is not discipline. It is designing so that the data is a by-product of work people already do —
+      and accepting approximate data where exact data would cost an operator's attention.</p>
+
+    <h2>2. It models a factory that does not exist</h2>
+
+    <p>Standard ERP assumes repeating products with stable bills of material. A project shop has neither.
+      Every greenhouse is a different span, a different site slope, a different wind load. The bill of material
+      is an output of engineering, not an input to it.</p>
+
+    <p>Systems built around the first assumption force the engineer to invent a fake product code for every
+      project just to make the software happy. That is a tax paid daily, and taxes paid daily get avoided.</p>
+
+    <h2>3. Nobody owns the gap between modules</h2>
+
+    <p>The quotation lives in one module, the production order in another, purchasing in a third. Each works.
+      The handover between them is a human copying numbers.</p>
+
+    <p>That handover is exactly where the errors are, and it is the part no configuration screen covers. In a
+      large company there is a person whose job is that seam. In a small one there is not, so the seam stays
+      manual and the system is, in practice, three spreadsheets with a licence fee.</p>
+
+    <h2>4. The interface is built for the office, not the floor</h2>
+
+    <p>Dense grids, twelve-column forms, required fields the operator cannot answer. The floor is a place with
+      gloves, bad lighting, and ninety seconds between cycles. Any interaction that takes more than a few
+      seconds will be skipped, and a skipped interaction is a hole in the data.</p>
+
+    <p>What works on the floor is almost embarrassingly simple: large targets, one decision per screen,
+      defaults that are right nine times out of ten, and nothing that blocks on a field somebody else should
+      have filled in.</p>
+
+    <h2>5. It is never finished, and nobody is there to finish it</h2>
+
+    <p>Every shop has a dozen small rules that are not in any standard package: this customer always wants
+      galvanised, that profile is ordered in six metre lengths only, this mold needs maintenance every four
+      thousand strokes. A packaged system cannot know them. A consultant bills for each one.</p>
+
+    <p>So the rules stay in people's heads, the system stays generic, and generic software loses to a
+      whiteboard every time — because the whiteboard is edited by the person who knows.</p>
+
+    <h2>What I did differently</h2>
+
+    <p>I did not set out to build an ERP. I set out to stop re-counting the same profiles. The system grew
+      from one real bottleneck outward, and that constraint turned out to be the design method:</p>
+
+    <ul>
+      <li>Start from the drawing, because that is where every project actually starts.</li>
+      <li>Make data entry a by-product — a quotation produces the material list, which produces the purchase
+        requirement, which produces the stock movement. Nobody types the same number twice.</li>
+      <li>Let the engineer who knows the rules change the rules, without a consultant and without a release.</li>
+      <li>Show unresolved items instead of plausible totals.</li>
+      <li>Ship it to one floor, watch what people avoid using, and delete that part.</li>
+    </ul>
+
+    <p>None of this is a technical insight. It is the ordinary observation that software for a small
+      manufacturer has to be built by somebody who has stood at the machine, and has to keep being built as
+      long as the shop is working. The hard part of manufacturing software was never the software.</p>
+  </div>
+
+  <div class="t-tr">
+    <p>Otuz kişilik bir atölye ERP alır. Açılış toplantısı yapılır, danışman gelir, iki hafta eğitim verilir.
+      Üçüncü ayda stok modülü yanlıştır, üretim modülü boştur ve gerçek planlama beyaz tahtaya ve WhatsApp
+      grubuna geri dönmüştür. Lisans bir yıl daha ödenir, çünkü iptal etmek bir şeyi kabul etmek olur.</p>
+
+    <p>Bunu iki taraftan da izledim — önce sistemin kaydetmesi beklenen işi yapan mühendis olarak, sonra böyle
+      bir sistemi kuran kişi olarak. Sürekli döndüğüm beş sebep şunlar.</p>
+
+    <h2>1. Kimsenin girecek vakti olmayan veriyi istiyor</h2>
+
+    <p>Kurumsal sistemler eksiksiz ve zamanında veri girişi varsayımıyla tasarlanır. Her stok hareketinin, her
+      operasyon başlangıç ve bitişinin, her fire kaydının olduktan dakikalar sonra girileceğini kabul ederler.</p>
+
+    <p>Otuz kişilik bir atölyede o veriyi girecek kişi aynı zamanda presi kullanan kişidir. Dolayısıyla giriş
+      hafta sonunda, hafızadan ya da hiç yapılmaz. Bir ay içinde sistemdeki rakamla depodaki rakam ayrışır ve
+      insanlar ekrandaki sayıya inanmayı bıraktığı an, ekranı bir daha kimse açmaz.</p>
+
+    <p>Çözüm disiplin değil. Çözüm, verinin insanların zaten yaptığı işin yan ürünü olacağı şekilde tasarlamak —
+      ve kesin verinin bir operatörün dikkatine mal olduğu yerde yaklaşık veriyi kabul etmek.</p>
+
+    <h2>2. Var olmayan bir fabrikayı modelliyor</h2>
+
+    <p>Standart ERP, sabit ürün ağaçlarına sahip tekrar eden ürünler varsayar. Proje tipi bir atölyede ikisi de
+      yoktur. Her sera farklı bir açıklık, farklı bir arazi eğimi, farklı bir rüzgar yüküdür. Ürün ağacı
+      mühendisliğin girdisi değil, çıktısıdır.</p>
+
+    <p>İlk varsayım üzerine kurulu sistemler, mühendisi yalnızca yazılımı mutlu etmek için her projeye sahte bir
+      ürün kodu uydurmaya zorlar. Bu, her gün ödenen bir vergidir; her gün ödenen vergilerden de kaçılır.</p>
+
+    <h2>3. Modüller arasındaki boşluğun sahibi yok</h2>
+
+    <p>Teklif bir modülde, üretim emri başka birinde, satın alma üçüncüsünde yaşar. Her biri çalışır.
+      Aralarındaki devir, sayıları kopyalayan bir insandır.</p>
+
+    <p>Hatalar tam olarak o devirde oluşur ve bu, hiçbir ayar ekranının kapsamadığı kısımdır. Büyük bir şirkette
+      işi bu dikiş yeri olan bir kişi vardır. Küçüğünde yoktur; dikiş elde kalır ve sistem pratikte lisans
+      ücreti olan üç Excel dosyasıdır.</p>
+
+    <h2>4. Arayüz saha için değil, ofis için tasarlanmış</h2>
+
+    <p>Sıkışık tablolar, on iki sütunlu formlar, operatörün cevaplayamayacağı zorunlu alanlar. Saha; eldivenin,
+      kötü aydınlatmanın ve iki çevrim arasındaki doksan saniyenin olduğu yerdir. Birkaç saniyeden uzun süren
+      her etkileşim atlanır ve atlanan her etkileşim veride bir deliktir.</p>
+
+    <p>Sahada işe yarayan şey utandıracak kadar basit: büyük hedefler, ekran başına tek karar, onda dokuz doğru
+      olan varsayılanlar ve başkasının doldurması gereken bir alanda tıkanmayan akışlar.</p>
+
+    <h2>5. Hiç bitmiyor ve bitirecek kimse yok</h2>
+
+    <p>Her atölyenin hiçbir hazır pakette olmayan bir düzine küçük kuralı vardır: şu müşteri her zaman galvaniz
+      ister, şu profil yalnızca altı metre boyunda sipariş edilir, şu kalıp dört bin vuruşta bir bakım ister.
+      Paket bir sistem bunları bilemez. Danışman her biri için fatura keser.</p>
+
+    <p>Sonuçta kurallar insanların kafasında kalır, sistem genel kalır ve genel yazılım beyaz tahtaya her
+      seferinde yenilir — çünkü beyaz tahtayı bilen kişi düzenler.</p>
+
+    <h2>Ben neyi farklı yaptım</h2>
+
+    <p>Yola bir ERP yazmak için çıkmadım. Aynı profilleri tekrar tekrar saymayı bırakmak için çıktım. Sistem
+      gerçek tek bir darboğazdan dışa doğru büyüdü ve bu kısıt tasarım yöntemine dönüştü:</p>
+
+    <ul>
+      <li>Çizimden başla, çünkü her proje gerçekte oradan başlıyor.</li>
+      <li>Veri girişini yan ürün yap — teklif malzeme listesini, o satın alma ihtiyacını, o da stok hareketini
+        üretsin. Aynı sayı iki kere yazılmasın.</li>
+      <li>Kuralları bilen mühendis kuralları değiştirebilsin; danışman da sürüm beklemek de gerekmesin.</li>
+      <li>Makul görünen toplamlar yerine çözülmemiş kalemleri göster.</li>
+      <li>Tek bir sahaya çıkar, insanların kullanmaktan kaçındığı yeri izle ve o kısmı sil.</li>
+    </ul>
+
+    <p>Bunların hiçbiri teknik bir içgörü değil. Küçük bir imalatçı için yazılımın, makinenin başında durmuş
+      biri tarafından yazılması ve atölye çalıştığı sürece yazılmaya devam etmesi gerektiği şeklindeki sıradan
+      gözlem. İmalat yazılımının zor kısmı hiçbir zaman yazılım olmadı.</p>
+  </div>
+
+  <p style="margin-top:3rem">
+    <a href="../index.html#writing" class="backlink">
+      <span class="t-en">&larr; All writing</span><span class="t-tr">&larr; Bütün yazılar</span>
+    </a>
+  </p>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p class="mono">&copy; <span id="year">2026</span> Celal Topcu</p>
+    <p class="mono"><a href="../index.html" class="backlink">celaltopcu.com</a></p>
+  </div>
+</footer>
+
+<script src="../js/script.js"></script>
+</body>
+</html>

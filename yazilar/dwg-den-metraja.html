@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From a DWG to a bill of material — Celal Topcu</title>
+<meta name="description" content="Why reading a drawing is the hardest part of automating a fabrication shop, and what actually works in practice.">
+<link rel="canonical" href="https://celaltopcu.com/yazilar/dwg-den-metraja">
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://celaltopcu.com/yazilar/dwg-den-metraja">
+<meta property="og:title" content="From a DWG to a bill of material">
+<meta property="og:description" content="Why reading a drawing is the hardest part of automating a fabrication shop.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<script>
+  (function () {
+    var lang = 'en', theme = 'dark';
+    try {
+      var q = new URLSearchParams(location.search).get('lang');
+      lang = (q === 'tr' || q === 'en') ? q
+        : (localStorage.getItem('site-lang') ||
+          (navigator.language && navigator.language.toLowerCase().indexOf('tr') === 0 ? 'tr' : 'en'));
+      theme = localStorage.getItem('site-theme') || 'dark';
+    } catch (e) {}
+    document.documentElement.className = 'js lang-' + lang + ' theme-' + theme;
+    document.documentElement.lang = lang;
+  })();
+</script>
+</head>
+<body>
+
+<header class="nav-wrap">
+  <nav class="nav container">
+    <a href="../index.html" class="logo">Celal Topcu<span class="mark">.</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html#projects"><span class="t-en">Projects</span><span class="t-tr">Projeler</span></a></li>
+      <li><a href="../index.html#software"><span class="t-en">Software</span><span class="t-tr">Yazılım</span></a></li>
+      <li><a href="../index.html#writing" aria-current="page"><span class="t-en">Writing</span><span class="t-tr">Yazılar</span></a></li>
+      <li><a href="../cv.html">CV</a></li>
+      <li><a href="../index.html#contact"><span class="t-en">Contact</span><span class="t-tr">İletişim</span></a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="icon-btn theme-toggle" id="themeToggle" type="button" aria-label="Switch theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+        </svg>
+      </button>
+      <button class="icon-btn lang-toggle" id="langToggle" type="button" aria-label="Switch language">
+        <span class="t-en">tr</span><span class="t-tr">en</span>
+      </button>
+      <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<main class="article">
+  <h1>
+    <span class="t-en">From a DWG to a bill of material</span>
+    <span class="t-tr">DWG'den metraja</span>
+  </h1>
+  <p class="mono article-meta">
+    2026 / 11 &nbsp;/&nbsp;
+    <span class="t-en">8 min read</span><span class="t-tr">8 dakika</span>
+  </p>
+
+  <div class="t-en">
+    <p>Every fabrication shop I have worked in has the same bottleneck, and it is never the machines. It is the
+      hour or two an engineer spends with a drawing and a spreadsheet, counting profiles, adding up metres of
+      tube, estimating how many bolts the assembly will swallow. That number decides the quotation, the
+      purchasing order, the cutting list and the delivery date. Everything downstream inherits whatever error
+      it contains.</p>
+
+    <p>So the obvious thing to do is automate it. Read the DWG, extract the geometry, produce the bill of
+      material. I have spent the better part of two years on that problem, and the lesson is not the one I
+      expected.</p>
+
+    <h2>A drawing is not a model</h2>
+
+    <p>The first instinct is to treat the DWG as a database. Open it, walk the entities, sum the lengths. That
+      works for about ten minutes, until you meet a real production drawing.</p>
+
+    <p>In a real drawing, a 6 metre tube may be drawn as a single LINE, or as a POLYLINE with four vertices, or
+      as a BLOCK inserted twice with a mirror transform, or as a rectangle that only means a tube because of a
+      text label sitting next to it. The same assembly may be drawn at 1:1 in one file and at 1:20 in another.
+      Dimensions get overridden by hand when someone fixes a length without moving the geometry. Layers carry
+      meaning that exists nowhere except in the head of the person who set them up.</p>
+
+    <p>None of this is sloppiness. It is what happens when a drawing is made to be read by a person who already
+      understands the product. The drawing is a communication artefact, not a data structure. Treating it as
+      the latter is where most take-off automation quietly fails.</p>
+
+    <h2>What actually works</h2>
+
+    <p>Three things moved the needle for me, and none of them is clever.</p>
+
+    <h3>Constrain the input before parsing it</h3>
+
+    <p>The single highest-leverage change was not in the code. It was agreeing, with the people who draw, on a
+      small set of rules: these layers mean structural profile, that block name means a purchased part, this
+      attribute carries the part code. Four or five rules, written down, applied to new drawings.</p>
+
+    <p>A parser against a convention is a weekend of work. A parser against arbitrary drawings is an
+      unbounded research project. The engineering judgment is knowing which one you are being asked for.</p>
+
+    <h3>Classify by family, not by geometry</h3>
+
+    <p>Trying to infer "this is a 40×60×2 rectangular tube" from line positions is fragile. Matching a
+      normalised block name or layer token against a material catalogue is not. Once the family is known, the
+      geometry only has to answer one question — how long — and that question is far more forgiving.</p>
+
+    <p>The practical consequence is that the material catalogue becomes the centre of the system, not the
+      parser. Get the catalogue right and the take-off mostly falls out of it.</p>
+
+    <h3>Never produce a silent number</h3>
+
+    <p>This is the one I would tell my past self first. An automated take-off that outputs a confident total is
+      worse than no take-off at all, because nobody checks a confident total.</p>
+
+    <p>Every line in the output should be traceable back to what produced it, and anything the system could not
+      classify should appear as an explicit unresolved item rather than being dropped. The engineer's hour does
+      not disappear; it moves from counting to reviewing. That is the actual win, and it is a large one —
+      reviewing a hundred-line list takes ten minutes, producing it took two hours.</p>
+
+    <h2>The part nobody mentions</h2>
+
+    <p>Fasteners. Bolts, nuts, washers, the clips that hold the film. They are rarely drawn individually, they
+      are a significant share of the purchase order, and they are the first thing to run out on site.</p>
+
+    <p>Geometry will not tell you how many bolts a frame needs. The only thing that works is a rule tied to the
+      connection type: this joint pattern implies this count per metre, this profile family implies that
+      spacing. Those rules come out of the people who assemble the thing, not out of the drawing. Collecting
+      them is an afternoon of asking questions on site, and it is the highest value afternoon in the whole
+      project.</p>
+
+    <h2>Where it leaves you</h2>
+
+    <p>A take-off system that is honest about its limits ends up looking less like artificial intelligence and
+      more like a very patient assistant: it reads what it is confident about, flags what it is not, and
+      remembers every material code so the engineer does not have to. The quotation goes out the same day
+      instead of the next one. The cutting list matches what arrives at the laser.</p>
+
+    <p>That is unglamorous, and it is the whole value.</p>
+  </div>
+
+  <div class="t-tr">
+    <p>Çalıştığım her imalat atölyesinde aynı darboğaz vardı ve hiçbirinde makineler değildi. Darboğaz, bir
+      mühendisin elinde çizim ve bir Excel dosyasıyla geçirdiği bir iki saat: profilleri sayar, metrelerce boru
+      toplar, montajın kaç cıvata yutacağını tahmin eder. O sayı teklifi, satın alma siparişini, kesim listesini
+      ve teslim tarihini belirler. Aşağıdaki her şey o sayının içindeki hatayı miras alır.</p>
+
+    <p>Yapılacak bariz şey bunu otomatikleştirmek. DWG'yi oku, geometriyi çıkar, metrajı üret. Bu problemin
+      üzerinde iki yılın büyük kısmını geçirdim ve çıkan ders beklediğim ders değildi.</p>
+
+    <h2>Çizim bir model değildir</h2>
+
+    <p>İlk içgüdü DWG'yi bir veritabanı gibi görmek. Aç, varlıkları gez, uzunlukları topla. Bu yaklaşım yaklaşık
+      on dakika çalışır — gerçek bir üretim çizimiyle karşılaşana kadar.</p>
+
+    <p>Gerçek bir çizimde 6 metrelik bir boru tek bir LINE olarak çizilmiş olabilir; ya da dört köşeli bir
+      POLYLINE, ya da ayna dönüşümüyle iki kez yerleştirilmiş bir BLOCK, ya da yalnızca yanındaki metin
+      etiketi sayesinde boru anlamına gelen bir dikdörtgen. Aynı montaj bir dosyada 1:1, başka bir dosyada 1:20
+      çizilmiş olabilir. Biri uzunluğu düzeltirken geometriyi kaydırmadığı için ölçüler elle ezilir.
+      Katmanların taşıdığı anlam, onları kuran kişinin kafasından başka hiçbir yerde yazmaz.</p>
+
+    <p>Bunların hiçbiri özensizlik değil. Bir çizim, ürünü zaten bilen bir insan tarafından okunmak üzere
+      yapıldığında olan şey bu. Çizim bir iletişim nesnesidir, bir veri yapısı değil. Onu veri yapısı sanmak,
+      metraj otomasyonlarının çoğunun sessizce çöktüğü yer.</p>
+
+    <h2>Pratikte ne işe yarıyor</h2>
+
+    <p>Üç şey gerçekten fark yarattı ve hiçbiri zekice değil.</p>
+
+    <h3>Ayrıştırmadan önce girdiyi sınırla</h3>
+
+    <p>En yüksek kaldıraçlı değişiklik kodda değildi. Çizim yapan kişilerle küçük bir kurallar kümesinde
+      anlaşmaktı: şu katmanlar yapısal profil demek, şu blok adı satın alınan parça demek, şu öznitelik parça
+      kodunu taşıyor. Dört beş kural, yazıya dökülmüş, yeni çizimlere uygulanmış.</p>
+
+    <p>Bir kurala karşı ayrıştırıcı yazmak bir hafta sonudur. Rastgele çizimlere karşı ayrıştırıcı yazmak sonu
+      olmayan bir araştırma projesidir. Mühendislik kararı, hangisinin istendiğini bilmektir.</p>
+
+    <h3>Geometriye göre değil, aileye göre sınıflandır</h3>
+
+    <p>Çizgi konumlarından "bu 40×60×2 kutu profil" sonucunu çıkarmaya çalışmak kırılgandır. Normalize edilmiş
+      bir blok adını veya katman belirtecini malzeme kataloğuyla eşleştirmek değildir. Aile bilindikten sonra
+      geometrinin cevaplaması gereken tek soru kalır — kaç metre — ve bu soru çok daha affedicidir.</p>
+
+    <p>Pratik sonucu şu: sistemin merkezi ayrıştırıcı değil, malzeme kataloğu olur. Kataloğu doğru kurarsanız
+      metraj büyük ölçüde kendiliğinden çıkar.</p>
+
+    <h3>Asla sessiz bir sayı üretme</h3>
+
+    <p>Geçmişteki kendime ilk söyleyeceğim şey bu. Kendinden emin bir toplam veren otomatik metraj, hiç metraj
+      olmamasından kötüdür — çünkü kimse kendinden emin bir toplamı kontrol etmez.</p>
+
+    <p>Çıktıdaki her satır, onu üreten şeye kadar geri izlenebilmeli; sistemin sınıflandıramadığı her şey sessizce
+      düşmek yerine açıkça "çözülmedi" olarak görünmeli. Mühendisin bir saati yok olmuyor; saymaktan kontrol
+      etmeye kayıyor. Asıl kazanç bu ve küçük bir kazanç değil — yüz satırlık bir listeyi kontrol etmek on
+      dakika, onu üretmek iki saat sürüyordu.</p>
+
+    <h2>Kimsenin bahsetmediği kısım</h2>
+
+    <p>Bağlantı elemanları. Cıvata, somun, pul, örtüyü tutan klipsler. Nadiren tek tek çizilirler, satın alma
+      siparişinin ciddi bir kısmını oluştururlar ve sahada ilk tükenen şeydir.</p>
+
+    <p>Bir çerçevenin kaç cıvata istediğini geometri söylemez. İşe yarayan tek şey, bağlantı tipine bağlı bir
+      kuraldır: şu birleşim deseni metrede şu adedi gerektirir, şu profil ailesi şu aralığı ister. Bu kurallar
+      çizimden değil, o şeyi monte eden insanlardan çıkar. Onları toplamak sahada soru sormakla geçen bir
+      öğleden sonradır ve projenin en değerli öğleden sonrasıdır.</p>
+
+    <h2>Nereye varıyor</h2>
+
+    <p>Sınırları konusunda dürüst olan bir metraj sistemi, sonunda yapay zekâdan çok çok sabırlı bir asistana
+      benziyor: emin olduğu şeyi okuyor, olmadığını işaretliyor ve bütün malzeme kodlarını mühendis yerine
+      hatırlıyor. Teklif ertesi gün yerine aynı gün çıkıyor. Kesim listesi lazere giden şeyle tutuyor.</p>
+
+    <p>Bu hiç gösterişli değil ve bütün değer tam olarak burada.</p>
+  </div>
+
+  <p style="margin-top:3rem">
+    <a href="../index.html#writing" class="backlink">
+      <span class="t-en">&larr; All writing</span><span class="t-tr">&larr; Bütün yazılar</span>
+    </a>
+  </p>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p class="mono">&copy; <span id="year">2026</span> Celal Topcu</p>
+    <p class="mono"><a href="../index.html" class="backlink">celaltopcu.com</a></p>
+  </div>
+</footer>
+
+<script src="../js/script.js"></script>
+</body>
+</html>

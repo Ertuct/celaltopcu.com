@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Universal testing machine — Celal Topcu</title>
+<meta name="description" content="A low-cost, modular universal testing machine for small-scale material characterization: 300 kg load cell, HX711, Arduino Mega 2560, Python GUI.">
+<link rel="canonical" href="https://celaltopcu.com/projeler/utm">
+<link rel="icon" type="image/png" href="../assets/favicon.png">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://celaltopcu.com/projeler/utm">
+<meta property="og:title" content="Universal testing machine">
+<meta property="og:description" content="A low-cost, modular universal testing machine for small-scale material characterization.">
+<meta property="og:image" content="https://celaltopcu.com/assets/utm-machine.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<script>
+  (function () {
+    var lang = 'en', theme = 'dark';
+    try {
+      var q = new URLSearchParams(location.search).get('lang');
+      lang = (q === 'tr' || q === 'en') ? q
+        : (localStorage.getItem('site-lang') ||
+          (navigator.language && navigator.language.toLowerCase().indexOf('tr') === 0 ? 'tr' : 'en'));
+      theme = localStorage.getItem('site-theme') || 'dark';
+    } catch (e) {}
+    document.documentElement.className = 'js lang-' + lang + ' theme-' + theme;
+    document.documentElement.lang = lang;
+  })();
+</script>
+</head>
+<body>
+
+<header class="nav-wrap">
+  <nav class="nav container">
+    <a href="../index.html" class="logo">Celal Topcu<span class="mark">.</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html#projects" aria-current="page"><span class="t-en">Projects</span><span class="t-tr">Projeler</span></a></li>
+      <li><a href="../index.html#software"><span class="t-en">Software</span><span class="t-tr">Yazılım</span></a></li>
+      <li><a href="../index.html#writing"><span class="t-en">Writing</span><span class="t-tr">Yazılar</span></a></li>
+      <li><a href="../cv.html">CV</a></li>
+      <li><a href="../index.html#contact"><span class="t-en">Contact</span><span class="t-tr">İletişim</span></a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="icon-btn theme-toggle" id="themeToggle" type="button" aria-label="Switch theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+        </svg>
+      </button>
+      <button class="icon-btn lang-toggle" id="langToggle" type="button" aria-label="Switch language">
+        <span class="t-en">tr</span><span class="t-tr">en</span>
+      </button>
+      <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<main class="article">
+  <h1>
+    <span class="t-en">Universal testing machine</span>
+    <span class="t-tr">Üniversal test cihazı</span>
+  </h1>
+  <p class="mono article-meta">
+    2025 / 09 &ndash; 2026 / 08 &nbsp;/&nbsp;
+    <span class="t-en">capstone project, ICETM 2026</span><span class="t-tr">bitirme projesi, ICETM 2026</span>
+  </p>
+
+  <figure>
+    <img src="../assets/utm-machine.jpg" alt="The assembled universal testing machine" loading="lazy">
+    <figcaption><span class="fig-no">1</span>
+      <span class="t-en"> The machine, assembled.</span><span class="t-tr"> Cihazın montajlı hâli.</span>
+    </figcaption>
+  </figure>
+
+  <div class="t-en">
+    <p>A low-cost, modular universal testing machine built from scratch for small-scale material
+      characterization, developed as a capstone project under Assoc. Prof. Dr. Adem Özçelik and presented at
+      ICETM 2026.</p>
+
+    <h2>Why build one</h2>
+    <p>A commercial testing machine is out of reach for an undergraduate laboratory, and the tests that a
+      teaching laboratory actually needs — small specimens, modest loads, quasi-static tension — use a fraction
+      of its capability. The design target was therefore not a cheaper copy of a commercial machine but a
+      machine sized to the real experiment, with every part replaceable from stock components.</p>
+
+    <h2>Mechanical design</h2>
+    <ul>
+      <li>Crosshead driven by a NEMA 17 stepper through a 50:1 planetary gearbox, trading speed for resolution
+        and holding torque.</li>
+      <li>Frame and fixtures modelled in SolidWorks; static analysis used to size the members against frame
+        deflection, which otherwise shows up directly in the measured extension.</li>
+      <li>Modular grips so the same frame covers more than one specimen geometry.</li>
+    </ul>
+
+    <h2>Measurement chain</h2>
+    <ul>
+      <li>300 kg load cell as the force element.</li>
+      <li>24-bit HX711 amplifier mounted inside a custom 3D-printed Faraday shield, giving the bridge
+        electronics their own shielded volume and a single ground reference.</li>
+      <li>Arduino Mega 2560 running C++ firmware, streaming measurements over serial.</li>
+      <li>Python interface handling calibration, live stress–strain plotting and data export.</li>
+    </ul>
+
+    <figure>
+      <img src="../assets/utm-architecture.jpg" alt="Signal and control architecture" loading="lazy">
+      <figcaption><span class="fig-no">2</span>
+        <span class="t-en"> Signal and control architecture.</span><span class="t-tr"> Sinyal ve kontrol mimarisi.</span>
+      </figcaption>
+    </figure>
+
+    <h2>The hard part</h2>
+    <p>Most of the project time went to noise, drift and fixturing rather than to mechanics or code. The
+      stepper driver sits close to a bridge circuit producing millivolts; separating the measurement from the
+      motor was the difference between a machine that produces numbers and a machine that produces
+      measurements. That work is written up separately in
+      <a href="../yazilar/yuk-hucresi-kalibrasyonu.html" class="link">Calibrating a load cell you cannot
+      trust</a>.</p>
+
+    <figure>
+      <img src="../assets/utm-gui.jpg" alt="Python control interface" loading="lazy">
+      <figcaption><span class="fig-no">3</span>
+        <span class="t-en"> Python control interface: calibration, live curve, export.</span>
+        <span class="t-tr"> Python kontrol arayüzü: kalibrasyon, canlı eğri, dışa aktarım.</span>
+      </figcaption>
+    </figure>
+
+    <h2>Validation and outcome</h2>
+    <p>Accuracy was validated against experimental data for materials with known behaviour. The results were
+      presented orally at the 16th International Congress on Engineering and Technology Management in Istanbul
+      and published in the proceedings.</p>
+
+    <div class="callout" style="margin-top:1.6rem">
+      <p>Celal Topcu, Egehan Sönmez, Sinan Güçlüer, Adem Özçelik.
+        <cite>Design and Implementation of a Low-Cost, Modular Universal Testing Machine for Small-Scale
+        Material Characterization.</cite> ICETM 2026, Istanbul, 15 August 2026, pp. 51–58.
+        E-ISBN 978-625-92029-4-5.</p>
+    </div>
+
+    <p style="margin-top:1.6rem">
+      <a href="https://github.com/Ertuct/UTM" target="_blank" rel="noopener noreferrer" class="link">
+        Firmware and interface on GitHub</a>
+    </p>
+  </div>
+
+  <div class="t-tr">
+    <p>Küçük ölçekli malzeme karakterizasyonu için sıfırdan üretilmiş, düşük maliyetli ve modüler bir üniversal
+      test cihazı. Doç. Dr. Adem Özçelik danışmanlığında bitirme projesi olarak geliştirildi ve ICETM 2026'da
+      sunuldu.</p>
+
+    <h2>Neden yapıldı</h2>
+    <p>Ticari bir test cihazı bir lisans laboratuvarının erişemeyeceği bir yatırım; üstelik bir eğitim
+      laboratuvarının gerçekten ihtiyaç duyduğu testler — küçük numuneler, mütevazı yükler, yarı-statik çekme —
+      o cihazın kabiliyetinin küçük bir kısmını kullanıyor. Dolayısıyla tasarım hedefi, ticari bir cihazın ucuz
+      kopyası değil, gerçek deneye göre boyutlandırılmış ve her parçası piyasadan temin edilebilir bir cihazdı.</p>
+
+    <h2>Mekanik tasarım</h2>
+    <ul>
+      <li>Hareketli başlık, 50:1 planet redüktör üzerinden NEMA 17 step motorla tahrik ediliyor; hız, çözünürlük
+        ve tutma torkuyla takas ediliyor.</li>
+      <li>Çerçeve ve bağlantı aparatları SolidWorks'te modellendi; elemanlar, ölçülen uzamaya doğrudan karışan
+        çerçeve sehimine karşı statik analizle boyutlandırıldı.</li>
+      <li>Modüler çeneler sayesinde aynı çerçeve birden fazla numune geometrisini karşılıyor.</li>
+    </ul>
+
+    <h2>Ölçüm zinciri</h2>
+    <ul>
+      <li>Kuvvet elemanı olarak 300 kg'lık yük hücresi.</li>
+      <li>Özel tasarım 3B basılmış Faraday kafesi içine yerleştirilmiş 24-bit HX711 yükselteç; köprü
+        elektroniğine kendi ekranlı hacmini ve tek bir toprak referansını veriyor.</li>
+      <li>C++ gömülü yazılımı çalıştıran, ölçümleri seri port üzerinden akıtan Arduino Mega 2560.</li>
+      <li>Kalibrasyon, canlı gerilme–uzama grafiği ve veri dışa aktarımını yöneten Python arayüzü.</li>
+    </ul>
+
+    <figure>
+      <img src="../assets/utm-architecture.jpg" alt="Sinyal ve kontrol mimarisi" loading="lazy">
+      <figcaption><span class="fig-no">2</span> Sinyal ve kontrol mimarisi.</figcaption>
+    </figure>
+
+    <h2>Zor kısım</h2>
+    <p>Proje süresinin büyük kısmı mekanik ya da koddan çok gürültü, kayma ve bağlantı aparatına gitti. Step
+      sürücü, milivolt üreten bir köprü devrinin hemen yanında duruyor; ölçümü motordan ayırmak, sayı üreten
+      bir cihazla ölçüm üreten bir cihaz arasındaki farktı. Bu çalışma ayrıca
+      <a href="../yazilar/yuk-hucresi-kalibrasyonu.html" class="link">Güvenmediğiniz bir yük hücresini kalibre
+      etmek</a> yazısında anlatılıyor.</p>
+
+    <figure>
+      <img src="../assets/utm-gui.jpg" alt="Python kontrol arayüzü" loading="lazy">
+      <figcaption><span class="fig-no">3</span> Python kontrol arayüzü: kalibrasyon, canlı eğri, dışa aktarım.</figcaption>
+    </figure>
+
+    <h2>Doğrulama ve sonuç</h2>
+    <p>Doğruluk, davranışı bilinen malzemeler için deneysel verilerle doğrulandı. Sonuçlar İstanbul'da
+      düzenlenen 16. Uluslararası Mühendislik ve Teknoloji Yönetimi Kongresi'nde sözlü olarak sunuldu ve
+      bildiriler kitabında yayımlandı.</p>
+
+    <div class="callout" style="margin-top:1.6rem">
+      <p>Celal Topcu, Egehan Sönmez, Sinan Güçlüer, Adem Özçelik.
+        <cite>Design and Implementation of a Low-Cost, Modular Universal Testing Machine for Small-Scale
+        Material Characterization.</cite> ICETM 2026, İstanbul, 15 Ağustos 2026, s. 51–58.
+        E-ISBN 978-625-92029-4-5.</p>
+    </div>
+
+    <p style="margin-top:1.6rem">
+      <a href="https://github.com/Ertuct/UTM" target="_blank" rel="noopener noreferrer" class="link">
+        Gömülü yazılım ve arayüz GitHub'da</a>
+    </p>
+  </div>
+
+  <p style="margin-top:3rem">
+    <a href="../index.html#projects" class="backlink">
+      <span class="t-en">&larr; All projects</span><span class="t-tr">&larr; Bütün projeler</span>
+    </a>
+  </p>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p class="mono">&copy; <span id="year">2026</span> Celal Topcu</p>
+    <p class="mono"><a href="../index.html" class="backlink">celaltopcu.com</a></p>
+  </div>
+</footer>
+
+<script src="../js/script.js"></script>
+</body>
+</html>
