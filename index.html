@@ -25,7 +25,7 @@
         (navigator.language && navigator.language.toLowerCase().startsWith('tr') ? 'tr' : 'en');
       theme = localStorage.getItem('site-theme') || 'dark';
     } catch (e) {}
-    document.documentElement.className = 'lang-' + lang + ' theme-' + theme;
+    document.documentElement.className = 'js lang-' + lang + ' theme-' + theme;
   })();
 </script>
 </head>
@@ -69,34 +69,23 @@
 
   <section id="home" class="hero container">
     <div class="hero-text">
-      <p class="eyebrow reveal">
-        <span class="t-en">Mechanical Engineer · Manufacturing, CFD &amp; Engineering Software</span>
-        <span class="t-tr">Makine Mühendisi · İmalat, CFD ve Mühendislik Yazılımı</span>
-      </p>
       <h1 class="reveal">
         <span class="t-en">Hi, I'm <span class="accent">Celal Topcu</span>.</span>
         <span class="t-tr">Merhaba, ben <span class="accent">Celal Topcu</span>.</span>
       </h1>
       <p class="hero-sub reveal">
-        <span class="t-en">I deliver turnkey greenhouse projects from SolidWorks design through fiber laser
-          cutting and final assembly, run ANSYS Fluent CFD on wind turbine blade geometries, and build the
-          software that digitizes the production floor I work on. I designed and manufactured a modular
-          Universal Testing Machine from scratch, which became a co-authored conference paper.</span>
-        <span class="t-tr">Anahtar teslim sera projelerini SolidWorks tasarımından fiber lazer kesime ve son
-          montaja kadar yürütüyorum, rüzgar türbini kanat geometrileri üzerinde ANSYS Fluent ile CFD analizleri
-          yapıyorum ve üzerinde çalıştığım üretim sahasını dijitalleştiren yazılımları geliştiriyorum. Sıfırdan
-          tasarlayıp ürettiğim modüler üniversal test cihazı, ortak yazarlı bir kongre bildirisine dönüştü.</span>
+        <span class="t-en">A mechanical engineer who takes manufacturing projects from the CAD drawing to the
+          finished assembly, runs CFD research on wind turbine blades, and writes the software the production
+          floor runs on.</span>
+        <span class="t-tr">İmalat projelerini CAD çiziminden bitmiş montaja taşıyan, rüzgar türbini kanatları
+          üzerinde CFD araştırması yürüten ve üretim sahasının çalıştığı yazılımı yazan bir makine
+          mühendisiyim.</span>
       </p>
       <div class="hero-actions reveal">
         <a href="#projects" class="btn btn-primary"><span class="t-en">View Projects</span><span class="t-tr">Projelerim</span></a>
         <a href="assets/Celal-Topcu-CV.pdf" target="_blank" rel="noopener" class="btn btn-ghost">
           <span class="t-en">Download CV</span><span class="t-tr">CV'yi İndir</span>
         </a>
-      </div>
-      <div class="hero-meta reveal">
-        <span>🎓 <span class="t-en">B.Sc. Mechanical Engineering (100% English)</span><span class="t-tr">Makine Mühendisliği Lisans (%100 İngilizce)</span></span>
-        <span>🛠️ SolidWorks · ANSYS Fluent · Python · C++</span>
-        <span>📄 <span class="t-en">Published at ICETM 2026</span><span class="t-tr">ICETM 2026'da yayınlandı</span></span>
       </div>
     </div>
     <div class="hero-photo reveal">
@@ -105,7 +94,7 @@
   </section>
 
   <section id="about" class="section container">
-    <h2 class="section-title reveal"><span class="num">01.</span> <span class="t-en">About</span><span class="t-tr">Hakkımda</span></h2>
+    <h2 class="section-title reveal"><span class="t-en">About</span><span class="t-tr">Hakkımda</span></h2>
     <div class="about-grid reveal">
       <div class="about-text">
         <p><span class="t-en">I'm a Mechanical Engineer working across R&amp;D, CFD analysis, mechatronic system
@@ -145,8 +134,8 @@
         <li>
           <span class="fact-label"><span class="t-en">Languages</span><span class="t-tr">Diller</span></span>
           <span class="fact-value">
-            <span class="t-en">Turkish (native) · English (B2)</span>
-            <span class="t-tr">Türkçe (anadil) · İngilizce (B2)</span>
+            <span class="t-en">Turkish (native), English (B2)</span>
+            <span class="t-tr">Türkçe (anadil), İngilizce (B2)</span>
           </span>
         </li>
         <li>
@@ -161,7 +150,7 @@
   </section>
 
   <section id="projects" class="section container">
-    <h2 class="section-title reveal"><span class="num">02.</span> <span class="t-en">Engineering Projects</span><span class="t-tr">Mühendislik Projeleri</span></h2>
+    <h2 class="section-title reveal"><span class="t-en">Engineering Projects</span><span class="t-tr">Mühendislik Projeleri</span></h2>
 
     <article class="project-wide reveal">
       <div class="project-head">
@@ -221,7 +210,7 @@
         <span>Arduino Mega 2560</span><span>C++</span><span>Python</span><span>HX711</span>
         <span><span class="t-en">Load cell</span><span class="t-tr">Yük hücresi</span></span>
         <span>SolidWorks</span>
-        <a href="https://github.com/Ertuct/UTM" target="_blank" rel="noopener noreferrer" class="stack-link">GitHub ↗</a>
+        <a href="https://github.com/Ertuct/UTM" target="_blank" rel="noopener noreferrer" class="stack-link">GitHub</a>
       </div>
     </article>
 
@@ -255,7 +244,7 @@
   </section>
 
   <section id="software" class="section container">
-    <h2 class="section-title reveal"><span class="num">03.</span> <span class="t-en">Software I Build</span><span class="t-tr">Geliştirdiğim Yazılımlar</span></h2>
+    <h2 class="section-title reveal"><span class="t-en">Software I Build</span><span class="t-tr">Geliştirdiğim Yazılımlar</span></h2>
     <p class="apps-lead reveal">
       <img class="brand-mark-sm" src="assets/logo-topcusoft.jpg" alt="TopcuSoft">
       <span class="t-en">Engineering tools I design and ship under my own name, <strong>TopcuSoft</strong>.</span>
@@ -264,7 +253,7 @@
     <div class="project-grid">
 
       <article class="project-card reveal">
-        <div class="project-tag"><span class="t-en">ERP/MES · In production use</span><span class="t-tr">ERP/MES · Sahada kullanımda</span></div>
+        <div class="project-tag"><span class="t-en">ERP/MES, In production use</span><span class="t-tr">ERP/MES, Sahada kullanımda</span></div>
         <h3>FORGEA</h3>
         <p><span class="t-en">An ERP/MES platform for sheet metal production: it takes a project from DWG
           drawings through material take-off and quotation to production planning, stock and maintenance
@@ -277,14 +266,14 @@
         <div class="project-stack">
           <span>FastAPI</span><span>React</span><span>PostgreSQL</span><span>Python</span>
           <a href="https://forgea.celaltopcu.com" target="_blank" rel="noopener noreferrer" class="stack-link">
-            <span class="t-en">Product site ↗</span><span class="t-tr">Ürün sitesi ↗</span>
+            <span class="t-en">Product site</span><span class="t-tr">Ürün sitesi</span>
           </a>
         </div>
       </article>
 
       <article class="project-card reveal">
         <img class="project-logo" src="assets/logo-opticut.webp" alt="OptiCut Laser">
-        <div class="project-tag"><span class="t-en">Mobile app · In development</span><span class="t-tr">Mobil uygulama · Geliştiriliyor</span></div>
+        <div class="project-tag"><span class="t-en">Mobile app, In development</span><span class="t-tr">Mobil uygulama, Geliştiriliyor</span></div>
         <h3>OptiCut Laser</h3>
         <p><span class="t-en">A React Native (Expo) mobile app that calculates fiber laser cutting parameters
           and checks material and assist gas settings — built from the parameters I work with on the shop floor.
@@ -299,7 +288,7 @@
 
       <article class="project-card reveal">
         <img class="project-logo" src="assets/logo-dataagent.png" alt="CFD Flow">
-        <div class="project-tag"><span class="t-en">Automation · Python</span><span class="t-tr">Otomasyon · Python</span></div>
+        <div class="project-tag"><span class="t-en">Automation, Python</span><span class="t-tr">Otomasyon, Python</span></div>
         <h3>CFD Flow</h3>
         <p><span class="t-en">A computer-use agent that drives ANSYS Workbench through its normal interface —
           reading the screen, clicking only allow-listed buttons, running project batches and exporting reports —
@@ -316,7 +305,7 @@
   </section>
 
   <section id="experience" class="section container">
-    <h2 class="section-title reveal"><span class="num">04.</span> <span class="t-en">Experience</span><span class="t-tr">Deneyim</span></h2>
+    <h2 class="section-title reveal"><span class="t-en">Experience</span><span class="t-tr">Deneyim</span></h2>
 
     <h3 class="sub-head reveal"><span class="t-en">Engineering</span><span class="t-tr">Mühendislik</span></h3>
     <ol class="timeline">
@@ -328,7 +317,7 @@
             <h3><span class="t-en">Project &amp; Manufacturing Engineer</span><span class="t-tr">Proje ve İmalat Mühendisi</span></h3>
             <span class="timeline-date">07/2026 – <span class="t-en">Present</span><span class="t-tr">Günümüz</span></span>
           </div>
-          <p class="timeline-org">Likya Greenhouse Solution · <span class="t-en">Aydın, Turkey</span><span class="t-tr">Aydın, Türkiye</span></p>
+          <p class="timeline-org">Likya Greenhouse Solution — <span class="t-en">Aydın, Turkey</span><span class="t-tr">Aydın, Türkiye</span></p>
           <ul>
             <li><span class="t-en">Execute turnkey greenhouse projects end to end; currently three active projects on 20–25 decare (2–2.5 ha) sites.</span>
               <span class="t-tr">Anahtar teslim sera projelerini uçtan uca yürütüyorum; şu anda 20–25 dönümlük (2–2,5 ha) üç aktif proje.</span></li>
@@ -347,7 +336,7 @@
             <h3><span class="t-en">QA Intern</span><span class="t-tr">Kalite Güvence Stajyeri</span></h3>
             <span class="timeline-date">06/2026 – 07/2026</span>
           </div>
-          <p class="timeline-org">Titan Asia · <span class="t-en">Aydın, Turkey</span><span class="t-tr">Aydın, Türkiye</span></p>
+          <p class="timeline-org">Titan Asia — <span class="t-en">Aydın, Turkey</span><span class="t-tr">Aydın, Türkiye</span></p>
           <ul>
             <li><span class="t-en">Worked with international manufacturing and quality standards in the automotive wheel (rim) industry.</span>
               <span class="t-tr">Otomotiv jant endüstrisinde uluslararası üretim ve kalite standartlarıyla çalıştım.</span></li>
@@ -364,7 +353,7 @@
             <h3><span class="t-en">Project Engineer</span><span class="t-tr">Proje Mühendisi</span></h3>
             <span class="timeline-date">03/2024 – 03/2025</span>
           </div>
-          <p class="timeline-org">Özen Makina · <span class="t-en">Istanbul, Turkey</span><span class="t-tr">İstanbul, Türkiye</span></p>
+          <p class="timeline-org">Özen Makina — <span class="t-en">Istanbul, Turkey</span><span class="t-tr">İstanbul, Türkiye</span></p>
           <ul>
             <li><span class="t-en">Managed end-to-end manufacturing of heavy industry machinery and cement plant spare parts, coordinating design with shop-floor execution.</span>
               <span class="t-tr">Ağır sanayi makineleri ve çimento tesisi yedek parçalarının uçtan uca imalatını yönettim; tasarımla saha uygulamasını koordine ettim.</span></li>
@@ -383,7 +372,7 @@
             <h3><span class="t-en">Mechanical Engineering Intern</span><span class="t-tr">Makine Mühendisliği Stajyeri</span></h3>
             <span class="timeline-date">02/2023 – 04/2023</span>
           </div>
-          <p class="timeline-org">Akkurt Makina · <span class="t-en">Istanbul, Turkey</span><span class="t-tr">İstanbul, Türkiye</span></p>
+          <p class="timeline-org">Akkurt Makina — <span class="t-en">Istanbul, Turkey</span><span class="t-tr">İstanbul, Türkiye</span></p>
           <ul>
             <li><span class="t-en">Contributed to production and assembly of industrial aluminum satin finishing machinery; analyzed precision CNC machining operations.</span>
               <span class="t-tr">Endüstriyel alüminyum saten yüzey işlem makinelerinin üretim ve montajına katkı sağladım; hassas CNC işleme operasyonlarını analiz ettim.</span></li>
@@ -397,19 +386,19 @@
     <div class="compact-grid reveal">
       <div class="compact-card">
         <h4><span class="t-en">Restaurant Manager</span><span class="t-tr">Restoran Müdürü</span></h4>
-        <p class="timeline-org">Pide by Pide · 05/2025 – 03/2026</p>
+        <p class="timeline-org">Pide by Pide — 05/2025 – 03/2026</p>
         <p><span class="t-en">Led a 10+ member team in a high-pressure environment — shift planning, workflow optimization and fast resolution of operational bottlenecks.</span>
           <span class="t-tr">Yoğun tempolu bir ortamda 10+ kişilik ekip yönettim — vardiya planlama, iş akışı optimizasyonu ve operasyonel tıkanıklıkların hızlı çözümü.</span></p>
       </div>
       <div class="compact-card">
         <h4><span class="t-en">E-Commerce Specialist</span><span class="t-tr">E-Ticaret Uzmanı</span></h4>
-        <p class="timeline-org">Oldtimercedes24 · 09/2024 – 12/2025</p>
+        <p class="timeline-org">Oldtimercedes24 — 09/2024 – 12/2025</p>
         <p><span class="t-en">Coordinated with cross-functional teams on product listings, customer data analysis and inventory accuracy.</span>
           <span class="t-tr">Ürün listeleri, müşteri verisi analizi ve stok doğruluğu konularında çapraz fonksiyonlu ekiplerle çalıştım.</span></p>
       </div>
       <div class="compact-card">
         <h4><span class="t-en">Volunteer</span><span class="t-tr">Gönüllü</span></h4>
-        <p class="timeline-org">UNICEF Türkiye · 2020 – 2021</p>
+        <p class="timeline-org">UNICEF Türkiye — 2020 – 2021</p>
         <p><span class="t-en">Supported social responsibility projects during the pandemic and coordinated with the field team in Istanbul.</span>
           <span class="t-tr">Pandemi döneminde sosyal sorumluluk projelerini destekledim ve İstanbul'daki saha ekibiyle koordinasyon sağladım.</span></p>
       </div>
@@ -417,49 +406,49 @@
   </section>
 
   <section id="skills" class="section container">
-    <h2 class="section-title reveal"><span class="num">05.</span> <span class="t-en">Technical Skills</span><span class="t-tr">Teknik Yetkinlikler</span></h2>
+    <h2 class="section-title reveal"><span class="t-en">Technical Skills</span><span class="t-tr">Teknik Yetkinlikler</span></h2>
     <div class="skills-grid reveal">
       <div class="skill-group">
         <h4>CAD / CAM</h4>
-        <p>SolidWorks · DraftSight · Lantek · Bodor Thinker</p>
+        <p>SolidWorks, DraftSight, Lantek, Bodor Thinker</p>
       </div>
       <div class="skill-group">
         <h4><span class="t-en">CAE &amp; Simulation</span><span class="t-tr">CAE ve Simülasyon</span></h4>
-        <p>ANSYS Fluent · ANSYS Workbench · CFD · <span class="t-en">FEA / Static Analysis</span><span class="t-tr">FEA / Statik Analiz</span></p>
+        <p>ANSYS Fluent, ANSYS Workbench, CFD, <span class="t-en">FEA / Static Analysis</span><span class="t-tr">FEA / Statik Analiz</span></p>
       </div>
       <div class="skill-group">
         <h4><span class="t-en">Programming</span><span class="t-tr">Yazılım</span></h4>
-        <p>Python · C++ · React Native · FastAPI</p>
+        <p>Python, C++, React Native, FastAPI</p>
       </div>
       <div class="skill-group">
         <h4><span class="t-en">Embedded &amp; Mechatronics</span><span class="t-tr">Gömülü ve Mekatronik</span></h4>
-        <p>Arduino · STM32 · <span class="t-en">Load cells · Stepper drivers · Data acquisition</span><span class="t-tr">Yük hücreleri · Step sürücüler · Veri toplama</span></p>
+        <p>Arduino, STM32, <span class="t-en">Load cells, Stepper drivers, Data acquisition</span><span class="t-tr">Yük hücreleri, Step sürücüler, Veri toplama</span></p>
       </div>
       <div class="skill-group">
         <h4><span class="t-en">Manufacturing &amp; Quality</span><span class="t-tr">İmalat ve Kalite</span></h4>
-        <p><span class="t-en">CNC machining · Fiber laser cutting (tube &amp; sheet) · Press operations · CMM inspection</span>
-          <span class="t-tr">CNC işleme · Fiber lazer kesim (boru ve sac) · Pres operasyonları · CMM ölçüm</span></p>
+        <p><span class="t-en">CNC machining, Fiber laser cutting (tube &amp; sheet), Press operations, CMM inspection</span>
+          <span class="t-tr">CNC işleme, Fiber lazer kesim (boru ve sac), Pres operasyonları, CMM ölçüm</span></p>
       </div>
       <div class="skill-group">
         <h4><span class="t-en">Languages</span><span class="t-tr">Diller</span></h4>
-        <p><span class="t-en">Turkish (native) · English (B2)</span><span class="t-tr">Türkçe (anadil) · İngilizce (B2)</span></p>
+        <p><span class="t-en">Turkish (native), English (B2)</span><span class="t-tr">Türkçe (anadil), İngilizce (B2)</span></p>
       </div>
     </div>
   </section>
 
   <section id="education" class="section container">
-    <h2 class="section-title reveal"><span class="num">06.</span> <span class="t-en">Education</span><span class="t-tr">Eğitim</span></h2>
+    <h2 class="section-title reveal"><span class="t-en">Education</span><span class="t-tr">Eğitim</span></h2>
     <div class="edu-card reveal">
       <div class="project-head">
         <h3><span class="t-en">B.Sc. in Mechanical Engineering</span><span class="t-tr">Makine Mühendisliği Lisans</span></h3>
         <span class="timeline-date">09/2019 – 07/2026</span>
       </div>
-      <p class="timeline-org">Aydın Adnan Menderes University · <span class="t-en">Aydın, Turkey</span><span class="t-tr">Aydın, Türkiye</span></p>
+      <p class="timeline-org">Aydın Adnan Menderes University — <span class="t-en">Aydın, Turkey</span><span class="t-tr">Aydın, Türkiye</span></p>
       <ul class="edu-facts">
         <li><span class="t-en">Taught 100% in English, including a one-year intensive English preparatory program.</span>
           <span class="t-tr">%100 İngilizce; bir yıllık yoğun İngilizce hazırlık programı dahil.</span></li>
-        <li><span class="t-en">CGPA 3.03 / 4.00 · 242 ECTS credits · graduated July 2026.</span>
-          <span class="t-tr">GANO 3,03 / 4,00 · 242 AKTS · Temmuz 2026'da mezun.</span></li>
+        <li><span class="t-en">CGPA 3.03 / 4.00, 242 ECTS credits, graduated July 2026.</span>
+          <span class="t-tr">GANO 3,03 / 4,00, 242 AKTS, Temmuz 2026'da mezun.</span></li>
         <li><span class="t-en">Capstone project (ME400) carried out under Assoc. Prof. Dr. Adem Özçelik, resulting in the ICETM 2026 conference paper.</span>
           <span class="t-tr">Bitirme projesi (ME400), Doç. Dr. Adem Özçelik danışmanlığında yürütüldü ve ICETM 2026 bildirisine dönüştü.</span></li>
       </ul>
@@ -484,7 +473,7 @@
   </section>
 
   <section id="contact" class="section container contact-section">
-    <h2 class="section-title reveal"><span class="num">07.</span> <span class="t-en">Contact</span><span class="t-tr">İletişim</span></h2>
+    <h2 class="section-title reveal"><span class="t-en">Contact</span><span class="t-tr">İletişim</span></h2>
     <p class="contact-lead reveal">
       <span class="t-en">Open to R&amp;D roles, graduate study opportunities and engineering collaborations.</span>
       <span class="t-tr">Ar-Ge pozisyonlarına, lisansüstü fırsatlarına ve mühendislik iş birliklerine açığım.</span>
