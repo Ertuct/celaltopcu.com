@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# CV dosyası siteden indirilebilir ama arama sonuçlarında listelenmesin
+# (telefon numarası ve referans iletişim bilgileri içeriyor)
+Disallow: /assets/Celal-Topcu-CV.pdf
+
+Sitemap: https://celaltopcu.com/sitemap.xml
