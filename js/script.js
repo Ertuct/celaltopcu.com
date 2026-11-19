@@ -1,15 +1,27 @@
+const root = document.documentElement;
+
+function remember(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch (e) {
+    /* storage unavailable */
+  }
+}
+
 document.getElementById('year').textContent = new Date().getFullYear();
 
-const langToggle = document.getElementById('langToggle');
-langToggle.addEventListener('click', () => {
-  const isTr = document.documentElement.classList.contains('lang-tr');
-  const next = isTr ? 'lang-en' : 'lang-tr';
-  document.documentElement.className = next;
-  try {
-    localStorage.setItem('site-lang', isTr ? 'en' : 'tr');
-  } catch (e) {
-    /* storage unavailable, ignore */
-  }
+document.getElementById('langToggle').addEventListener('click', () => {
+  const toTr = !root.classList.contains('lang-tr');
+  root.classList.toggle('lang-tr', toTr);
+  root.classList.toggle('lang-en', !toTr);
+  remember('site-lang', toTr ? 'tr' : 'en');
+});
+
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const toLight = !root.classList.contains('theme-light');
+  root.classList.toggle('theme-light', toLight);
+  root.classList.toggle('theme-dark', !toLight);
+  remember('site-theme', toLight ? 'light' : 'dark');
 });
 
 const navToggle = document.getElementById('navToggle');
@@ -27,7 +39,6 @@ navLinks.querySelectorAll('a').forEach((link) => {
   });
 });
 
-const revealEls = document.querySelectorAll('.reveal');
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -39,4 +50,4 @@ const observer = new IntersectionObserver(
   },
   { threshold: 0.15 }
 );
-revealEls.forEach((el) => observer.observe(el));
+document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
