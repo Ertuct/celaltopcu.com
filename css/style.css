@@ -76,13 +76,11 @@ a { color: inherit; text-decoration: none; }
 }
 
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
-  font-size: 1.1rem;
-  letter-spacing: 0.3px;
+  font-size: 1.15rem;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
 }
 .logo-word { color: var(--text); }
 
@@ -480,6 +478,92 @@ a { color: inherit; text-decoration: none; }
   margin-bottom: 28px;
 }
 .apps-lead strong { color: var(--text); }
+
+/* Wide project articles */
+.project-wide {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 24px;
+  transition: border-color 0.2s ease;
+}
+.project-wide:hover { border-color: var(--accent); }
+
+.project-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.project-head h3 {
+  font-size: 1.2rem;
+  color: var(--text);
+}
+.project-wide > p { font-size: 0.95rem; }
+
+.project-media {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  margin: 20px 0 4px;
+}
+.project-media a {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  text-align: center;
+}
+.project-media img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 6px;
+  margin-bottom: 7px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.project-media a:hover img {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* Sub headings inside sections */
+.sub-head {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 20px;
+}
+.timeline + .sub-head { margin-top: 44px; }
+
+/* Compact cards for secondary experience */
+.compact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+}
+.compact-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.compact-card h4 {
+  font-size: 1rem;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.compact-card p { font-size: 0.88rem; }
+.compact-card .timeline-org { margin-bottom: 10px; }
+
+.about-text p + p { margin-top: 14px; }
 
 .publication {
   background: var(--bg-elev);
