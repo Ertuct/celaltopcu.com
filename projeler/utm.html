@@ -37,8 +37,10 @@
   <nav class="nav container">
     <a href="../index.html" class="logo">Celal Topcu<span class="mark">.</span></a>
     <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html#about"><span class="t-en">About</span><span class="t-tr">Hakkımda</span></a></li>
       <li><a href="../index.html#projects" aria-current="page"><span class="t-en">Projects</span><span class="t-tr">Projeler</span></a></li>
       <li><a href="../index.html#software"><span class="t-en">Software</span><span class="t-tr">Yazılım</span></a></li>
+      <li><a href="../index.html#experience"><span class="t-en">Experience</span><span class="t-tr">Deneyim</span></a></li>
       <li><a href="../index.html#writing"><span class="t-en">Writing</span><span class="t-tr">Yazılar</span></a></li>
       <li><a href="../cv.html">CV</a></li>
       <li><a href="../index.html#contact"><span class="t-en">Contact</span><span class="t-tr">İletişim</span></a></li>
@@ -66,7 +68,7 @@
 <main class="article">
   <h1>
     <span class="t-en">Universal testing machine</span>
-    <span class="t-tr">Üniversal test cihazı</span>
+    <span class="t-tr">Universal çekme makinesi</span>
   </h1>
   <p class="mono article-meta">
     2025 / 09 &ndash; 2026 / 08 &nbsp;/&nbsp;
@@ -82,7 +84,8 @@
 
   <div class="t-en">
     <p>A low-cost, modular universal testing machine built from scratch for small-scale material
-      characterization, developed as a capstone project under Assoc. Prof. Dr. Adem Özçelik and presented at
+      characterization, developed together with Egehan Sönmez as a capstone project under Assoc. Prof. Dr.
+      Adem Özçelik and presented at
       ICETM 2026.</p>
 
     <h2>Why build one</h2>
@@ -151,20 +154,18 @@
   </div>
 
   <div class="t-tr">
-    <p>Küçük ölçekli malzeme karakterizasyonu için sıfırdan üretilmiş, düşük maliyetli ve modüler bir üniversal
-      test cihazı. Doç. Dr. Adem Özçelik danışmanlığında bitirme projesi olarak geliştirildi ve ICETM 2026'da
+    <p>Küçük ölçekli malzeme karakterizasyonu için sıfırdan üretilmiş, düşük maliyetli ve modüler bir universal
+      çekme makinesi. Egehan Sönmez ile birlikte, Doç. Dr. Adem Özçelik danışmanlığında bitirme projesi olarak geliştirildi ve ICETM 2026'da
       sunuldu.</p>
 
     <h2>Neden yapıldı</h2>
-    <p>Ticari bir test cihazı bir lisans laboratuvarının erişemeyeceği bir yatırım; üstelik bir eğitim
-      laboratuvarının gerçekten ihtiyaç duyduğu testler — küçük numuneler, mütevazı yükler, yarı-statik çekme —
-      o cihazın kabiliyetinin küçük bir kısmını kullanıyor. Dolayısıyla tasarım hedefi, ticari bir cihazın ucuz
-      kopyası değil, gerçek deneye göre boyutlandırılmış ve her parçası piyasadan temin edilebilir bir cihazdı.</p>
+    <p>Ticari bir çekme makinesi, bir lisans laboratuvarının erişemeyeceği bir yatırım; üstelik bir eğitim
+      laboratuvarının gerçekten ihtiyaç duyduğu testler — küçük numuneler, düşük yükler, yarı-statik çekme —
+      o makinenin kapasitesinin küçük bir kısmını kullanıyor. Dolayısıyla tasarım hedefi, ticari bir makinenin ucuz kopyası değil, gerçek deneye göre boyutlandırılmış ve her parçası piyasadan temin edilebilir bir makineydi.</p>
 
     <h2>Mekanik tasarım</h2>
     <ul>
-      <li>Hareketli başlık, 50:1 planet redüktör üzerinden NEMA 17 step motorla tahrik ediliyor; hız, çözünürlük
-        ve tutma torkuyla takas ediliyor.</li>
+      <li>Hareketli başlık, 50:1 planet redüktör üzerinden NEMA 17 step motorla tahrik ediliyor; hızdan feragat edilerek çözünürlük ve tutma torku kazanılıyor.</li>
       <li>Çerçeve ve bağlantı aparatları SolidWorks'te modellendi; elemanlar, ölçülen uzamaya doğrudan karışan
         çerçeve sehimine karşı statik analizle boyutlandırıldı.</li>
       <li>Modüler çeneler sayesinde aynı çerçeve birden fazla numune geometrisini karşılıyor.</li>
@@ -173,9 +174,8 @@
     <h2>Ölçüm zinciri</h2>
     <ul>
       <li>Kuvvet elemanı olarak 300 kg'lık yük hücresi.</li>
-      <li>Özel tasarım 3B basılmış Faraday kafesi içine yerleştirilmiş 24-bit HX711 yükselteç; köprü
-        elektroniğine kendi ekranlı hacmini ve tek bir toprak referansını veriyor.</li>
-      <li>C++ gömülü yazılımı çalıştıran, ölçümleri seri port üzerinden akıtan Arduino Mega 2560.</li>
+      <li>Özel tasarım 3B basılmış Faraday kafesi içine yerleştirilmiş 24-bit HX711 yükselteç; köprü elektroniğine kendi ekranlanmış bölmesini ve tek bir toprak referansını veriyor.</li>
+      <li>C++ gömülü yazılımı çalıştıran, ölçümleri seri port üzerinden sürekli gönderen Arduino Mega 2560.</li>
       <li>Kalibrasyon, canlı gerilme–uzama grafiği ve veri dışa aktarımını yöneten Python arayüzü.</li>
     </ul>
 
@@ -186,7 +186,7 @@
 
     <h2>Zor kısım</h2>
     <p>Proje süresinin büyük kısmı mekanik ya da koddan çok gürültü, kayma ve bağlantı aparatına gitti. Step
-      sürücü, milivolt üreten bir köprü devrinin hemen yanında duruyor; ölçümü motordan ayırmak, sayı üreten
+      sürücü, milivolt üreten bir köprü devresinin hemen yanında duruyor; ölçümü motordan ayırmak, sayı üreten
       bir cihazla ölçüm üreten bir cihaz arasındaki farktı. Bu çalışma ayrıca
       <a href="../yazilar/yuk-hucresi-kalibrasyonu.html" class="link">Güvenmediğiniz bir yük hücresini kalibre
       etmek</a> yazısında anlatılıyor.</p>

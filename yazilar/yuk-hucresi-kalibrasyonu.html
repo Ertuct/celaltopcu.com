@@ -37,8 +37,10 @@
   <nav class="nav container">
     <a href="../index.html" class="logo">Celal Topcu<span class="mark">.</span></a>
     <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html#about"><span class="t-en">About</span><span class="t-tr">Hakkımda</span></a></li>
       <li><a href="../index.html#projects"><span class="t-en">Projects</span><span class="t-tr">Projeler</span></a></li>
       <li><a href="../index.html#software"><span class="t-en">Software</span><span class="t-tr">Yazılım</span></a></li>
+      <li><a href="../index.html#experience"><span class="t-en">Experience</span><span class="t-tr">Deneyim</span></a></li>
       <li><a href="../index.html#writing" aria-current="page"><span class="t-en">Writing</span><span class="t-tr">Yazılar</span></a></li>
       <li><a href="../cv.html">CV</a></li>
       <li><a href="../index.html#contact"><span class="t-en">Contact</span><span class="t-tr">İletişim</span></a></li>
@@ -172,50 +174,47 @@
   </div>
 
   <div class="t-tr">
-    <p>Ticari bir üniversal test cihazı bir araba fiyatından başlıyor. Bir bitirme projesi için bu rakam bütçe
+    <p>Ticari bir universal çekme makinesi bir araba fiyatından başlıyor. Bir bitirme projesi için bu rakam bütçe
       değil, duvardır. Biz de bir tane yaptık: 300 kg'lık yük hücresi, 24-bit HX711 yükselteç, Arduino Mega
       2560, 50:1 planet redüktör üzerinden NEMA 17 step motor ve seri kablonun ucunda bir Python arayüzü.</p>
 
     <p>Bu parçaların her biri başka bir iş için satılıyor. Yük hücresi bir tartı bileşeni. HX711 bir mutfak
-      terazisi yongası. Hiçbiri, bir bildiride savunulacak bir ölçüm için tasarlanmamıştı. Onlardan ayakta
-      duran sayılar çıkarmak projenin büyük kısmıydı ve neredeyse hiçbiri mekanik değildi.</p>
+      terazisi yongası. Hiçbiri, bir bildiride savunulacak bir ölçüm için tasarlanmamıştı. Onlardan güvenilir sayılar çıkarmak projenin büyük kısmıydı ve neredeyse hiçbiri mekanik değildi.</p>
 
     <h2>İlk problem doğruluk değil, kararlılık</h2>
 
     <p>İçgüdü doğrudan kalibrasyona gitmek: bilinen kütleleri as, doğruyu uydur, bitti. Bu size yalnızca
       kalibrasyonu aldığınız on dakika için geçerli bir eğri verir.</p>
 
-    <p>Bunların hiçbiri anlamlı olmadan önce, okumanın kendi başına ne kadar gezdiğini bilmeniz gerekiyor.
+    <p>Bunların hiçbiri anlamlı olmadan önce, okumanın kendi kendine ne kadar kaydığını bilmeniz gerekiyor.
       Hareketli başlık dururken ve hiçbir yük yokken ham değeri bir saat boyunca kaydedin. O bir saat size
       gerçek cihazı gösterir:</p>
 
     <ul>
-      <li>Strain gauge ve elektroniği ısındıkça gelen yavaş kayma.</li>
-      <li>Oda sıcaklığıyla ilişkili daha hızlı bir gezinme.</li>
-      <li>Yalnızca binada başka bir şey çalıştığında beliren periyodik gürültü.</li>
+      <li>Gerinim ölçer (strain gauge) ve elektronik ısındıkça oluşan yavaş kayma.</li>
+      <li>Oda sıcaklığına bağlı daha hızlı bir dalgalanma.</li>
+      <li>Yalnızca yapıda başka bir şey çalıştığında beliren periyodik gürültü.</li>
     </ul>
 
-    <p>Bu üçü birbirinden ayrılmadan, kalibrasyon eğrisi hareketli hedeflerden doğru geçirmektir.</p>
+    <p>Bu üçü birbirinden ayrılmadan, kalibrasyon yapmak, hareket eden hedeflerden doğru geçirmeye çalışmaktır.</p>
 
     <h2>Gürültünün kaynağı step motordu</h2>
 
-    <p>Periyodik gürültünün kaynağı kendimizdik. Step sürücü, milivolt üreten bir köprü devrinin birkaç
-      santim yanında duruyor ve akımı onlarca kilohertzde anahtarlıyor. Sinyal motorun üstüne biniyordu.</p>
+    <p>Periyodik gürültünün kaynağı kendimizdik. Step sürücü, milivolt üreten bir köprü devresinin birkaç
+      santim yanında duruyor ve akımı onlarca kilohertzde anahtarlıyor. Sinyal, motorun gürültüsünün üstüne biniyordu.</p>
 
     <p>Üç değişiklik bunu çözdü; en çok işe yarayandan başlayarak:</p>
 
     <h3>Kabloyu değil, yükselteci ekranla</h3>
 
-    <p>HX711 için bir muhafaza bastık ve içini kapladık; böylece yükselteç tek bir toprak referansı olan kendi
-      ekranlı hacmine kavuştu. Yükselteci ekranın içine almak, kablo güzergâhıyla uğraşmanın tamamından daha
+    <p>HX711 için bir muhafaza bastık ve içini kapladık; böylece yükselteç tek bir toprak referansı olan kendi ekranlanmış bölmesine kavuştu. Yükselteci ekranın içine almak, kablo güzergâhıyla uğraşmanın tamamından daha
       çok işe yaradı — çünkü mikrovoltların sayıya döndüğü yer yükselteçtir. Bu yapıldıktan sonra sinyaldeki
-      motor gürültüsü baskın terim olmaktan çıktı.</p>
+      motor gürültüsü baskın bileşen olmaktan çıktı.</p>
 
     <h3>Toprakları ayır, bir kez birleştir</h3>
 
     <p>Motor akımının köprü referansıyla aynı toprak yolundan dönmesi, motorun anahtarlamasını doğrudan ölçümün
-      içine koyar. Ayrı dönüş yolları ve besleme yakınında tam olarak tek bir noktada buluşma, ekranın
-      bırakmadığını temizledi.</p>
+      içine koyar. Ayrı dönüş yolları ve besleme yakınında tam olarak tek bir noktada buluşma, ekranlamanın gideremediğini temizledi.</p>
 
     <h3>Mecbur değilsen hareket ederken ölçme</h3>
 
@@ -224,7 +223,7 @@
       olmaz ve kuplajın en kötü kısmını yapısal olarak ortadan kaldırır. Deneyinizin neye ihtiyacı
       <em>olmadığını</em> bilmek gerçek bir mühendislik aracıdır.</p>
 
-    <h2>Haftayı çıkaran kalibrasyon</h2>
+    <h2>Bir hafta sonra da geçerli kalan kalibrasyon</h2>
 
     <p>Cihaz kararlı hâle geldikten sonra kalibrasyon sıradanlaştı — korunmaya değer üç alışkanlıkla:</p>
 
@@ -239,7 +238,7 @@
     <p><strong>Dara bir ölçümdür, bir düğme değil.</strong> Her testten hemen önce, cihaz dururken birkaç yüz
       örneğin ortalamasını almak, ısınma kaymasını yok saymadan ortadan kaldırır.</p>
 
-    <h2>Tek sayan şey doğrulama</h2>
+    <h2>Asıl önemli olan doğrulama</h2>
 
     <p>Yukarıdakilerin hepsi iç tutarlılıktır. Cihazın kendisiyle uyumlu olduğunu söyler. Doğru olduğunu
       söylemez.</p>
