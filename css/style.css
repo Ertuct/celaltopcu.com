@@ -399,6 +399,14 @@ html.theme-light .theme-toggle .icon-moon { display: block; }
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 .stack > span + a { margin-left: auto; }
+.stack .copy-btn {
+  margin-left: auto;
+  line-height: 1.4;
+  padding: 0.3rem 0.75rem;
+  display: inline-flex;
+  align-items: center;
+}
+.stack .copy-btn + a { margin-left: 0.5rem; }
 .stack > a::after {
   content: "\2192";
   transition: transform 0.15s ease;
