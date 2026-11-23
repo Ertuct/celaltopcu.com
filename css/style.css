@@ -579,13 +579,31 @@ figcaption .fig-no { color: var(--oxide); }
   gap: 0.6rem;
   margin-top: 1.6rem;
 }
-/* the shared .copy-btn (citation) style is mono/small; inside contact it must look like .btn */
-.contact-links .copy-btn {
+/* mail chooser (js/script.js): desktop only, opens under any mailto link */
+.mail-menu {
+  position: absolute;
+  z-index: 60;
+  min-width: 15rem;
+  padding: 0.3rem 0;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+.mail-menu-item {
+  display: block;
+  width: 100%;
+  padding: 0.55rem 1rem;
+  background: none;
+  border: 0;
+  text-align: left;
   font-family: 'Archivo', sans-serif;
   font-size: 0.875rem;
-  padding: 0.55rem 1.1rem;
+  color: var(--ink-dim);
   cursor: pointer;
 }
+.mail-menu-item + .mail-menu-item { border-top: 1px solid var(--rule-soft); }
+.mail-menu-item:hover,
+.mail-menu-item:focus-visible { color: var(--ink); background: var(--sel); outline: none; }
 .contact-detail {
   margin-top: 1.4rem;
   font-size: 0.9rem;

@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=20261123b">
 <script>
   (function () {
     var lang = 'en', theme = 'dark';
@@ -507,7 +507,7 @@
       </div>
       <div>
         <dt><span class="t-en">Embedded</span><span class="t-tr">Gömülü</span></dt>
-        <dd>Arduino, STM32,
+        <dd>Arduino,
           <span class="t-en">load cells, stepper drivers, data acquisition</span>
           <span class="t-tr">yük hücreleri, step sürücüler, veri toplama</span></dd>
       </div>
@@ -610,16 +610,15 @@
       <span class="t-en">Open to R&amp;D roles, graduate study opportunities and engineering collaborations.</span>
       <span class="t-tr">Ar-Ge pozisyonlarına, lisansüstü fırsatlarına ve mühendislik iş birliklerine açığım.</span>
     </p>
-    <!-- Desktop browsers without a mail client ignore mailto, so the address can also be copied;
-         on phones "Call" and "WhatsApp" are the quickest routes. -->
+    <!-- On desktop every mailto link opens a chooser (Gmail / Outlook / default app / copy):
+         see "mail chooser" in js/script.js. Phones go straight to the mail app. -->
     <p class="contact-detail mono reveal">
-      <span id="contactEmail">contact@celaltopcu.com</span>
+      <span>contact@celaltopcu.com</span>
       <span class="sep">/</span>
       <a href="tel:+905331373813">+90 533 137 38 13</a>
     </p>
     <div class="contact-links reveal">
       <a href="mailto:contact@celaltopcu.com" class="btn btn-primary"><span class="t-en">Write an e-mail</span><span class="t-tr">E-posta yaz</span></a>
-      <button type="button" class="btn btn-ghost copy-btn" data-copy="#contactEmail"><span class="t-en">Copy e-mail</span><span class="t-tr">E-postayı kopyala</span></button>
       <a href="tel:+905331373813" class="btn btn-ghost"><span class="t-en">Call</span><span class="t-tr">Ara</span></a>
       <a href="https://wa.me/905331373813?text=Merhaba%20Celal%2C" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">WhatsApp</a>
     </div>
@@ -643,6 +642,6 @@
   </div>
 </footer>
 
-<script src="js/script.js"></script>
+<script src="js/script.js?v=20261123b"></script>
 </body>
 </html>

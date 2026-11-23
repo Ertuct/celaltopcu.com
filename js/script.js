@@ -65,6 +65,96 @@
     });
   });
 
+  /* --- mail chooser -------------------------------------------------------
+     A mailto link does nothing on a desktop without a mail client. With a mouse, a click opens a
+     small menu instead: Gmail, Outlook, the default app, or copy the address. Touch devices keep
+     the plain mailto (the phone's mail app opens). */
+  (function () {
+    var fine = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)');
+    var menu = null, opener = null;
+
+    function tr() { return root.classList.contains('lang-tr'); }
+
+    function close(focusBack) {
+      if (!menu) return;
+      menu.remove();
+      menu = null;
+      if (opener) {
+        opener.setAttribute('aria-expanded', 'false');
+        if (focusBack) opener.focus();
+      }
+      opener = null;
+    }
+
+    function open(link) {
+      var addr = link.getAttribute('href').replace(/^mailto:/i, '').split('?')[0];
+      var to = encodeURIComponent(addr);
+      var items = [
+        [tr() ? "Gmail'de yaz" : 'Write in Gmail',
+          'https://mail.google.com/mail/?view=cm&fs=1&to=' + to],
+        [tr() ? "Outlook'ta yaz" : 'Write in Outlook',
+          'https://outlook.live.com/mail/0/deeplink/compose?to=' + to],
+        [tr() ? 'Varsayılan e-posta uygulaması' : 'Default mail app', 'mailto:' + addr],
+        [tr() ? 'Adresi kopyala' : 'Copy address', null]
+      ];
+      menu = document.createElement('div');
+      menu.className = 'mail-menu';
+      menu.setAttribute('role', 'menu');
+      items.forEach(function (it) {
+        var el = document.createElement(it[1] ? 'a' : 'button');
+        el.className = 'mail-menu-item';
+        el.setAttribute('role', 'menuitem');
+        el.textContent = it[0];
+        if (it[1]) {
+          el.href = it[1];
+          if (/^https:/.test(it[1])) { el.target = '_blank'; el.rel = 'noopener noreferrer'; }
+          el.addEventListener('click', function () { setTimeout(function () { close(false); }, 0); });
+        } else {
+          el.type = 'button';
+          el.addEventListener('click', function () {
+            var done = function () {
+              el.textContent = tr() ? 'Kopyalandı: ' + addr : 'Copied: ' + addr;
+              setTimeout(function () { close(true); }, 1400);
+            };
+            if (navigator.clipboard) navigator.clipboard.writeText(addr).then(done, function () {});
+          });
+        }
+        menu.appendChild(el);
+      });
+      document.body.appendChild(menu);
+      var r = link.getBoundingClientRect();
+      var left = Math.min(r.left + window.scrollX, window.scrollX + document.documentElement.clientWidth - menu.offsetWidth - 12);
+      menu.style.left = Math.max(12, left) + 'px';
+      menu.style.top = (r.bottom + window.scrollY + 6) + 'px';
+      opener = link;
+      link.setAttribute('aria-expanded', 'true');
+      menu.querySelector('.mail-menu-item').focus();
+    }
+
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest && e.target.closest('a[href^="mailto:"]');
+      if (link && !link.classList.contains('mail-menu-item') && fine && fine.matches) {
+        e.preventDefault();
+        var same = opener === link;
+        close(false);
+        if (!same) open(link);
+        return;
+      }
+      if (menu && !menu.contains(e.target)) close(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (!menu) return;
+      if (e.key === 'Escape') { close(true); return; }
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        var list = Array.prototype.slice.call(menu.querySelectorAll('.mail-menu-item'));
+        var i = list.indexOf(document.activeElement);
+        list[(i + (e.key === 'ArrowDown' ? 1 : list.length - 1)) % list.length].focus();
+        e.preventDefault();
+      }
+    });
+    window.addEventListener('resize', function () { close(false); });
+  })();
+
   /* --- footer year ------------------------------------------------------- */
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
