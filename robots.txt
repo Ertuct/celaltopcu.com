@@ -4,5 +4,6 @@ Allow: /
 # CV dosyası siteden indirilebilir ama arama sonuçlarında listelenmesin
 # (telefon numarası ve referans iletişim bilgileri içeriyor)
 Disallow: /assets/Celal-Topcu-CV.pdf
+Disallow: /assets/Celal-Topcu-CV-TR.pdf
 
 Sitemap: https://celaltopcu.com/sitemap.xml

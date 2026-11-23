@@ -579,6 +579,22 @@ figcaption .fig-no { color: var(--oxide); }
   gap: 0.6rem;
   margin-top: 1.6rem;
 }
+/* the shared .copy-btn (citation) style is mono/small; inside contact it must look like .btn */
+.contact-links .copy-btn {
+  font-family: 'Archivo', sans-serif;
+  font-size: 0.875rem;
+  padding: 0.55rem 1.1rem;
+  cursor: pointer;
+}
+.contact-detail {
+  margin-top: 1.4rem;
+  font-size: 0.9rem;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.contact-detail .sep { color: var(--rule); margin: 0 0.6em; }
+.contact-detail a { color: inherit; }
+.contact-detail a:hover { color: var(--oxide); }
 
 .footer {
   border-top: 1px solid var(--rule);
