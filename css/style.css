@@ -11,15 +11,29 @@
   --rule-soft:  #262220;
   --ink:        #eae6df;
   --ink-dim:    #a9a196;
-  --ink-faint:  #776f64;
+  --ink-faint:  #8e8578;   /* AA: 4.62 (eski #776f64 = 3.61) */
   --oxide:      #d46a3c;
   --oxide-ink:  #1a0f09;
   --sel:        rgba(212, 106, 60, 0.26);
 
-  --measure: 66ch;
-  --container: 1080px;
+  --measure: 64ch;
+  --container: 1200px;
+  --edge: clamp(24px, 4vw, 32px);
   --gutter: 7.5rem;
   --gap: 2.75rem;
+
+  /* Ortak ölçek (üç sitede aynı — TASARIM.md) */
+  --fs-display: clamp(2.6rem, 1.6rem + 4.2vw, 4.75rem);
+  --fs-h2:      clamp(1.75rem, 1.2rem + 2.2vw, 2.6rem);
+  --fs-h3:      clamp(1.2rem, 1rem + 0.8vw, 1.45rem);
+  --fs-body:    1.0625rem;
+  --fs-small:   0.9375rem;
+  --fs-meta:    0.8125rem;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 24px; --sp-6: 32px;
+  --sp-7: 48px; --sp-8: 64px; --sp-9: 96px; --sp-10: 128px; --sp-11: 160px;
+  --section-pad: clamp(72px, 10vw, 152px);
+  --nav-h: 64px;
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
 }
 
 html.theme-light {
@@ -29,7 +43,7 @@ html.theme-light {
   --rule-soft:  #e7e0d3;
   --ink:        #1b1a17;
   --ink-dim:    #55504a;
-  --ink-faint:  #8a8278;
+  --ink-faint:  #726b63;   /* AA: 4.66 (eski #8a8278 = 3.36) */
   --oxide:      #b24a22;
   --oxide-ink:  #fffdf8;
   --sel:        rgba(178, 74, 34, 0.18);
@@ -39,6 +53,7 @@ html.theme-light {
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--nav-h);
   overflow-x: clip;
   -webkit-text-size-adjust: 100%;
 }
@@ -56,6 +71,14 @@ body {
 }
 
 ::selection { background: var(--sel); }
+
+/* Lenis (js/vendor/lenis.min.js) — kendi kaydırması varken CSS smooth kapalı */
+html.lenis, html.lenis body { height: auto; }
+html.lenis { scroll-behavior: auto; }
+.lenis.lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+html.nav-open, html.nav-open body { overflow: hidden; }
+[id] { scroll-margin-top: var(--nav-h); }
 
 h1, h2, h3, h4 {
   font-family: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
@@ -84,7 +107,7 @@ a.link:hover { color: var(--oxide); }
 
 strong { font-weight: 600; color: var(--ink); }
 
-img { max-width: 100%; display: block; }
+img { max-width: 100%; height: auto; display: block; }
 
 /* --- language switch ---------------------------------------------------- */
 html.lang-en .t-tr { display: none; }
@@ -94,12 +117,12 @@ html.lang-tr .t-en { display: none; }
 .container {
   max-width: var(--container);
   margin: 0 auto;
-  padding: 0 28px;
+  padding: 0 var(--edge);
 }
 
 .mono {
   font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.78rem;
+  font-size: var(--fs-meta);
   letter-spacing: 0.01em;
   color: var(--ink-faint);
   font-variant-numeric: tabular-nums;
@@ -112,15 +135,21 @@ html.lang-tr .t-en { display: none; }
   position: sticky;
   top: 0;
   z-index: 40;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+.nav-wrap.is-scrolled,
+html.nav-open .nav-wrap {
   background: var(--paper);
-  border-bottom: 1px solid var(--rule);
+  border-bottom-color: var(--rule);
 }
 
 .nav {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  min-height: 60px;
+  gap: var(--sp-5);
+  min-height: var(--nav-h);
 }
 
 /* Wordmark: lower case, set tight, with an oversized full stop as the mark. */
@@ -153,17 +182,18 @@ html.lang-tr .t-en { display: none; }
 }
 .nav-links a {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.78rem;
+  font-size: var(--fs-meta);
   color: var(--ink-dim);
   padding: 0.3rem 0;
   border-bottom: 1px solid transparent;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition: color 140ms ease, border-color 140ms ease;
 }
 .nav-links a:hover {
   color: var(--ink);
   border-bottom-color: var(--oxide);
 }
-.nav-links a[aria-current="page"] {
+.nav-links a[aria-current="page"],
+.nav-links a.is-active {
   color: var(--ink);
   border-bottom-color: var(--oxide);
 }
@@ -178,15 +208,15 @@ html.lang-tr .t-en { display: none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   background: none;
   border: 0;
-  color: var(--ink-faint);
+  color: var(--ink-dim);
   cursor: pointer;
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.75rem;
+  font-size: var(--fs-meta);
   transition: color 0.15s ease;
 }
 .icon-btn:hover { color: var(--oxide); }
@@ -212,57 +242,61 @@ html.theme-light .theme-toggle .icon-moon { display: block; }
    Hero
    ========================================================================== */
 .hero {
-  padding: 5.5rem 28px 4rem;
+  padding-top: var(--sp-9);
+  padding-bottom: var(--sp-9);
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 168px;
-  gap: 3.5rem;
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr) clamp(220px, 26vw, 320px);
+  gap: var(--sp-8);
+  align-items: center;
 }
 
 .hero h1 {
-  font-size: clamp(2.3rem, 5.6vw, 3.6rem);
+  font-size: var(--fs-display);
   font-weight: 700;
-  letter-spacing: -0.03em;
-  margin-bottom: 1.1rem;
+  letter-spacing: -0.035em;
+  line-height: 1.0;
+  margin-bottom: var(--sp-5);
 }
 .hero h1::after {
   content: "";
   display: block;
-  width: 52px;
+  width: 56px;
   height: 2px;
   background: var(--oxide);
-  margin-top: 1.1rem;
+  margin-top: var(--sp-5);
 }
 
 .hero-sub {
-  max-width: 54ch;
-  font-size: 1.1875rem;
+  max-width: 52ch;
+  font-size: clamp(1.125rem, 1rem + 0.4vw, 1.3125rem);
+  line-height: 1.55;
   color: var(--ink-dim);
-  margin-bottom: 1.9rem;
+  margin-bottom: var(--sp-6);
 }
 
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
-  margin-bottom: 2.4rem;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-7);
 }
 
 .hero-photo img {
-  width: 168px;
-  height: 168px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
   object-fit: cover;
   border: 1px solid var(--rule);
   border-radius: 2px;
   filter: saturate(0.92);
 }
-.hero-photo figcaption { margin-top: 0.6rem; }
+.hero-photo figcaption { margin-top: var(--sp-3); }
 
 /* dated "now" note */
 .now {
   border-top: 1px solid var(--rule);
-  padding-top: 1rem;
-  max-width: 58ch;
+  padding-top: var(--sp-4);
+  max-width: 64ch;
   display: grid;
   grid-template-columns: 6.5rem 1fr;
   gap: 0 1.5rem;
@@ -277,14 +311,16 @@ html.theme-light .theme-toggle .icon-moon { display: block; }
    Buttons
    ========================================================================== */
 .btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   font-family: 'Archivo', sans-serif;
-  font-size: 0.875rem;
-  font-weight: 500;
-  padding: 0.55rem 1.1rem;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  padding: 0 var(--sp-5);
   border-radius: 2px;
   border: 1px solid var(--oxide);
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
 }
 .btn-primary {
   background: var(--oxide);
@@ -293,7 +329,7 @@ html.theme-light .theme-toggle .icon-moon { display: block; }
 .btn-primary:hover { background: transparent; color: var(--oxide); }
 .btn-ghost {
   background: transparent;
-  color: var(--ink-dim);
+  color: var(--ink);
   border-color: var(--rule);
 }
 .btn-ghost:hover { color: var(--ink); border-color: var(--ink-faint); }
@@ -302,20 +338,24 @@ html.theme-light .theme-toggle .icon-moon { display: block; }
    Sections
    ========================================================================== */
 .section {
-  padding: 3.6rem 28px;
+  padding-top: var(--section-pad);
+  padding-bottom: var(--section-pad);
   border-top: 1px solid var(--rule);
 }
 
 .section-title {
-  font-size: 1.375rem;
-  font-weight: 600;
-  margin-bottom: 2.2rem;
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  margin-bottom: var(--sp-7);
 }
 
 .section-lead {
   max-width: var(--measure);
   color: var(--ink-dim);
-  margin-bottom: 2.4rem;
+  margin-top: calc(-1 * var(--sp-5));
+  margin-bottom: var(--sp-7);
 }
 
 /* two-column entry: mono meta in the gutter, content in the column */
@@ -323,7 +363,7 @@ html.theme-light .theme-toggle .icon-moon { display: block; }
   display: grid;
   grid-template-columns: var(--gutter) minmax(0, 1fr);
   gap: 0 var(--gap);
-  padding: 2.1rem 0;
+  padding: var(--sp-6) 0;
   border-top: 1px solid var(--rule-soft);
 }
 .entry.first { border-top: 0; padding-top: 0; }
@@ -336,8 +376,10 @@ html.theme-light .theme-toggle .icon-moon { display: block; }
 
 .entry-body { min-width: 0; }
 .entry-body > h3 {
-  font-size: 1.25rem;
-  margin-bottom: 0.2rem;
+  font-size: var(--fs-h3);
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  margin-bottom: var(--sp-1);
 }
 .entry-org {
   font-size: 0.95rem;
@@ -375,9 +417,9 @@ html.theme-light .theme-toggle .icon-moon { display: block; }
   align-items: center;
   row-gap: 0.6rem;
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.78rem;
-  color: var(--ink-faint);
-  margin-top: 1.1rem;
+  font-size: var(--fs-meta);
+  color: var(--ink-dim);
+  margin-top: var(--sp-4);
   line-height: 1.9;
 }
 .stack > span + span::before {
@@ -435,7 +477,7 @@ figure img {
 a:hover figure img { border-color: var(--oxide); }
 figcaption {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.72rem;
+  font-size: var(--fs-meta);
   line-height: 1.5;
   color: var(--ink-faint);
   margin-top: 0.5rem;
@@ -456,7 +498,7 @@ figcaption .fig-no { color: var(--oxide); }
 .deftable dt,
 .deftable .dt {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.78rem;
+  font-size: var(--fs-meta);
   color: var(--ink-faint);
   padding-top: 0.18rem;
   margin: 0;
@@ -492,11 +534,11 @@ figcaption .fig-no { color: var(--oxide); }
 
 .sub-head {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.78rem;
+  font-size: var(--fs-meta);
   font-weight: 400;
   color: var(--ink-faint);
   letter-spacing: 0;
-  margin: 3rem 0 1.4rem;
+  margin: var(--sp-7) 0 var(--sp-5);
 }
 .sub-head.first { margin-top: 0; }
 
@@ -550,7 +592,7 @@ figcaption .fig-no { color: var(--oxide); }
 .cite-actions { margin-top: 0.9rem; }
 .copy-btn {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.75rem;
+  font-size: var(--fs-meta);
   background: none;
   border: 1px solid var(--rule);
   border-radius: 2px;
@@ -633,20 +675,23 @@ figcaption .fig-no { color: var(--oxide); }
    Article / subpage
    ========================================================================== */
 .article {
-  max-width: 72ch;
+  max-width: calc(68ch + 2 * var(--edge));
   margin: 0 auto;
-  padding: 4rem 28px 3rem;
+  padding: var(--sp-9) var(--edge) var(--sp-8);
 }
 .article h1 {
-  font-size: clamp(1.9rem, 4.4vw, 2.6rem);
+  font-size: clamp(2.1rem, 1.4rem + 3vw, 3.4rem);
   font-weight: 700;
-  letter-spacing: -0.025em;
-  margin-bottom: 0.8rem;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: var(--sp-4);
 }
 .article-meta { margin-bottom: 2.4rem; }
 .article h2 {
-  font-size: 1.1875rem;
-  margin: 2.6rem 0 0.8rem;
+  font-size: clamp(1.35rem, 1.1rem + 1vw, 1.75rem);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: var(--sp-7) 0 var(--sp-3);
 }
 .article h3 {
   font-size: 1.0625rem;
@@ -688,14 +733,14 @@ figcaption .fig-no { color: var(--oxide); }
 }
 .article th {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.76rem;
+  font-size: var(--fs-meta);
   font-weight: 400;
   color: var(--ink-faint);
   border-bottom-color: var(--rule);
 }
 .backlink {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.78rem;
+  font-size: var(--fs-meta);
   color: var(--ink-faint);
 }
 .backlink:hover { color: var(--oxide); }
@@ -705,13 +750,15 @@ figcaption .fig-no { color: var(--oxide); }
    ========================================================================== */
 html.js .reveal {
   opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(14px);
+  transition: opacity 500ms var(--ease-out), transform 500ms var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
 }
 html.js .reveal.is-visible {
   opacity: 1;
   transform: none;
 }
+html.js .reveal.no-anim { transition: none; }
 
 a:focus-visible,
 button:focus-visible,
@@ -743,19 +790,22 @@ button:focus-visible,
     gap: 0;
     background: var(--paper);
     border-bottom: 1px solid var(--rule);
-    padding: 0.5rem 28px 1rem;
+    padding: var(--sp-2) var(--edge) var(--sp-4);
+    max-height: calc(100dvh - var(--nav-h));
+    overflow-y: auto;
   }
   .nav-links.open { display: flex; }
   .nav-links li { width: 100%; }
-  .nav-links a { display: block; padding: 0.6rem 0; }
+  .nav-links a { display: flex; align-items: center; min-height: 44px; padding: 0; }
+  .icon-btn { width: 44px; height: 44px; }
 
   .hero {
     grid-template-columns: 1fr;
-    padding-top: 3.2rem;
-    gap: 2.2rem;
+    padding-top: var(--sp-7);
+    padding-bottom: var(--sp-8);
+    gap: var(--sp-6);
   }
-  .hero-photo { order: -1; }
-  .hero-photo img { width: 116px; height: 116px; }
+  .hero-photo { order: -1; width: min(200px, 56vw); }
 
   .now { grid-template-columns: 1fr; gap: 0.35rem; }
 
@@ -771,7 +821,7 @@ button:focus-visible,
 
   .deftable > div { grid-template-columns: 1fr; gap: 0.3rem; }
 
-  .section { padding: 2.6rem 28px; }
+
   body { font-size: 1.03125rem; }
 }
 

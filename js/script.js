@@ -159,19 +159,5 @@
   var year = document.getElementById('year');
   if (year) year.textContent = new Date().getFullYear();
 
-  /* --- reveal on scroll -------------------------------------------------- */
-  var targets = document.querySelectorAll('.reveal');
-  if (!('IntersectionObserver' in window)) {
-    Array.prototype.forEach.call(targets, function (el) { el.classList.add('is-visible'); });
-    return;
-  }
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        io.unobserve(entry.target);
-      }
-    });
-  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
-  Array.prototype.forEach.call(targets, function (el) { io.observe(el); });
+  /* Belirme, yumuşak kaydırma, menü zemini ve aktif bölüm: js/hareket.js */
 })();
